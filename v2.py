@@ -80,15 +80,17 @@ def parse_and_execute_command(command):
             return os.getcwd()
         changedir(path)
     elif main_command == "list" or main_command == "lst":
-        if len(parts) >= 3 and parts[2] == "-struct":
-            tree()
-        elif len(parts) >= 2 and parts[1] == "?":
+        if len(parts) >= 2:
+            if len(parts) >= 3 and parts[2] == "-struct":
+                tree()
+        elif parts[1] == "?":
             print("""
-                lst - List directory contents.
-                lst -struct - List directory contents in a tree structure.
-              """)
+                    lst - List directory contents.
+                    lst -struct - List directory contents in a tree structure.
+                  """)
         else:
             listdir()
+
     elif main_command == "commit" and len(parts) >= 2:
         message = parts[1]
         if message == '?':
