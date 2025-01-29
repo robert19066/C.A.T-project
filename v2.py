@@ -80,17 +80,21 @@ def parse_and_execute_command(command):
             return os.getcwd()
         changedir(path)
     elif main_command == "list" or main_command == "lst":
-        if len(parts) >= 2:
-            if len(parts) >= 3 and parts[2] == "-struct":
-                tree()
-        elif parts[1] == "?":
+        if len(parts) > 1 and parts[1] == "?":  # Check if there are enough parts and if the second part is '?'
             print("""
-                    lst - List directory contents.
-                    lst -struct - List directory contents in a tree structure.
-                  """)
+        lst - List directory contents.
+        lst -struct - List directory contents in a tree structure.
+            """)
         else:
-            listdir()
+            listdir()  # List directory contents normally if not '?'
 
+    elif main_command == "struct":
+        if len(parts) > 1 and parts[1] == "?":  # Check if there are enough parts and if the second part is '?'
+            print("""
+        struct = windows tree yes
+            """)
+
+        tree()
     elif main_command == "commit" and len(parts) >= 2:
         message = parts[1]
         if message == '?':
@@ -181,6 +185,7 @@ def parse_and_execute_command(command):
             New input prompt(looks better)
             Version selection menu
             Educative edition(more detail,easier commands)
+            New command: struct(lst -struct was broken so i made a new command)
             PS: Edcuative edition is still in development
             PS2: educative edition is just v2 but more detailed.
         """)
