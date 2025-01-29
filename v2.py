@@ -79,15 +79,15 @@ def parse_and_execute_command(command):
                   """)
             return os.getcwd()
         changedir(path)
-    elif main_command == "lst" and len(parts) >= 2:
-        if parts[1] == "-struct":
+    elif main_command == "list" or main_command == "lst":
+        if len(parts) >= 3 and parts[2] == "-struct":
             tree()
-        elif parts[1] == "?":
+        elif len(parts) >= 2 and parts[1] == "?":
             print("""
-                    lst - List directory contents.
-                    lst -struct - List directory contents in a tree structure.
-                  """)
-        elif parts[1] == None:
+                lst - List directory contents.
+                lst -struct - List directory contents in a tree structure.
+              """)
+        else:
             listdir()
     elif main_command == "commit" and len(parts) >= 2:
         message = parts[1]
@@ -121,7 +121,7 @@ def parse_and_execute_command(command):
         run(command)
     elif main_command == "help" or main_command == "?":
         help()
-    elif main_command == "clear" or main_command == "cls" or main_command == "c" and len(parts) >= 2:
+    elif main_command == "clear" or main_command == "cls" or main_command == "c" and len(parts) >= 3:
         if parts[1] == "?":
             print("""
                     clear - Clear the screen.
@@ -329,6 +329,10 @@ def help():
 
         =============================================================================================================================
 
+        changelog - Show the changelog of the current version.
+        or chlog
+
+        =============================================================================================================================
         yea that's it for now
 """
     )
@@ -336,6 +340,8 @@ def help():
 print("functions created succesfully!")
 print("prompt.py loaded succesfully!")
 print("Booting C.A.T")
+
+
 os.system('cls')
 
 if showSplashScreen:print(r"""
