@@ -189,7 +189,15 @@ def parse_and_execute_command(command):
             PS: Edcuative edition is still in development
             PS2: educative edition is just v2 but more detailed.
         """)
-
+    elif main_command == "readexec" and len(parts) >= 2:
+        file_path = parts[1]
+        if file_path == '?':
+            print("""
+                    readexec [file_path] - Read and execute commands from the specified file.
+                    IT MUST BE A .CAT FILE
+                  """)
+            return ""
+        execute_commands_from_file(file_path)
     else:
         print(f"Unknown command: {main_command}")
 
@@ -275,6 +283,30 @@ def mkfile(name, type):
 def openfile(name):
     run(f"notepad {name}")
 
+
+def execute_commands_from_file(file_path):
+    # Check if the file has the correct extension (.cmdlist)
+    if not file_path.endswith('.cat'):
+        print(f"Error: File must be a '.cat' file. You provided: {file_path}")
+        return
+    
+    if not os.path.exists(file_path):
+        print(f"File {file_path} does not exist.")
+        return
+    
+    with open(file_path, 'r') as file:
+        lines = file.readlines()
+    
+    for line in lines:
+        line = line.strip()  # Remove leading/trailing whitespace or newline
+        if line:  # Skip empty lines
+            print(f"Executing command: {line}")
+            parse_and_execute_command(line)
+
+# Example of calling the function
+execute_commands_from_file('commands.cmdlist')
+
+
 def listdir():
     try:
         # List directory contents
@@ -311,7 +343,6 @@ def help():
         =============================================================================================================================
 
         lst - List directory contents.Works like the dir command in windows,or ls in unix-like systems.
-        Use it with the -struct attribute to list the directory contents in a tree structure.
 
         =============================================================================================================================
 
@@ -340,6 +371,19 @@ def help():
         or chlog
 
         =============================================================================================================================
+
+        clear - Clear the screen.
+
+        ============================================================================================================================
+
+        readexec [file_path] - Read and execute commands from the specified file.
+        IT MUST BE A .CAT FILE
+
+        ============================================================================================================================
+
+        struct - List directory contents in a tree structure.
+
+        ============================================================================================================================
         yea that's it for now
 """
     )
